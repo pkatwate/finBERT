@@ -9,7 +9,9 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
 from tqdm import tqdm_notebook as tqdm
 from tqdm import trange
 from nltk.tokenize import sent_tokenize
-from finbert.utils import *
+#from finbert.utils import *
+from utils import *
+
 import numpy as np
 import logging
 
@@ -199,9 +201,14 @@ class FinBert(object):
 
         if phase == 'train':
             train = pd.read_csv(os.path.join(self.config.data_dir, 'train.csv'), sep='\t', index_col=False)
+            print(train.head())
             weights = list()
             labels = self.label_list
-
+            print(train.shape[0])
+            for label in labels:
+                print(label)
+                #print()
+                print (train[train.label == label].shape[0] )
             class_weights = [train.shape[0] / train[train.label == label].shape[0] for label in labels]
             self.class_weights = torch.tensor(class_weights)
 
